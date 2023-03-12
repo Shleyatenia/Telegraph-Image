@@ -25,7 +25,7 @@ export async function onRequest(context) {  // Contents of context object
                 return response;
             }
 
-        if (typeof env.img_url == "undefined" || env.img_url == null || env.img_url == ""){}else{
+        if (typeof env.img_url == "undefined" || env.img_url === null || env.img_url == ""){}else{
             //check the record from kv
             const record = await env.img_url.getWithMetadata(params.id); 
             console.log("record")
@@ -40,14 +40,14 @@ export async function onRequest(context) {  // Contents of context object
                 }else if (record.metadata.ListType=="Block"){
                     console.log("Referer")
                     console.log(request.headers.get('Referer'))
-                    if(typeof request.headers.get('Referer') == "undefined" ||request.headers.get('Referer') == null || request.headers.get('Referer') == ""){
+                    if(typeof request.headers.get('Referer') == "undefined" ||request.headers.get('Referer') === null || request.headers.get('Referer') == ""){
                         return Response.redirect(url.origin+"/block-img.html", 302)
                     }else{
                         return Response.redirect("https://static-res.pages.dev/teleimage/img-block-compressed.png", 302)
                     }
 
                 }else if (record.metadata.Label=="adult"){
-                    if(typeof request.headers.get('Referer') == "undefined" ||request.headers.get('Referer') == null || request.headers.get('Referer') == ""){
+                    if(typeof request.headers.get('Referer') == "undefined" ||request.headers.get('Referer') === null || request.headers.get('Referer') == ""){
                         return Response.redirect(url.origin+"/block-img.html", 302)
                     }else{
                         return Response.redirect("https://static-res.pages.dev/teleimage/img-block-compressed.png", 302)
@@ -71,9 +71,9 @@ export async function onRequest(context) {  // Contents of context object
         
         let apikey=env.ModerateContentApiKey
         
-            if(typeof apikey == "undefined" || apikey == null || apikey == ""){
+            if(typeof apikey == "undefined" || apikey === null || apikey == ""){
                 
-                if (typeof env.img_url == "undefined" || env.img_url == null || env.img_url == ""){
+                if (typeof env.img_url == "undefined" || env.img_url === null || env.img_url == ""){
                     console.log("Not enbaled KV")
                     
                 }else{
@@ -90,7 +90,7 @@ export async function onRequest(context) {  // Contents of context object
                     console.log(moderate_data)
                     console.log("---env.img_url---")
                     console.log(env.img_url=="true")
-                    if (typeof env.img_url == "undefined" || env.img_url == null || env.img_url == ""){}else{
+                    if (typeof env.img_url == "undefined" || env.img_url === null || env.img_url == ""){}else{
                         //add image to kv
                         await env.img_url.put(params.id, "",{
                             metadata: { ListType: "None", Label: moderate_data.rating_label,TimeStamp: time },
