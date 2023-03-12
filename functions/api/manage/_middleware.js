@@ -28,7 +28,7 @@ async function errorHandling(context) {
   
     // The user & password are split by the first colon and MUST NOT contain control characters.
     // @see https://tools.ietf.org/html/rfc5234#appendix-B.1 (=> "CTL = %x00-1F / %x7F")
-    if (index === -1 || /[\0-\x1F\x7F]/.test(decoded)) {
+    if (index === -1 || /[\0-\x1F\x7F]/u.test(decoded)) {
       throw new BadRequestException('Invalid authorization value.');
     }
   
