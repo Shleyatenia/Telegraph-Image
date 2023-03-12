@@ -7,7 +7,7 @@ export async function onRequest(context) {  // Contents of context object
      next, // used for middleware or to fetch assets    
      data, // arbitrary space for passing data between middlewares 
      } = context;
-     context.request
+     
      const url = new URL(request.url);
     
     const response = fetch('https://telegra.ph/' + url.pathname + url.search, {
