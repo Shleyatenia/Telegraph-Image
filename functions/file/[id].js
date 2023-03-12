@@ -15,11 +15,11 @@ export async function onRequest(context) {  // Contents of context object
          headers: request.headers,
          body: request.body,
      }).then(async (response) => {
-        console.log(response.ok); // true if the response status is 2xx
-        console.log(response.status); // 200
+         // true if the response status is 2xx
+         // 200
         if(response.ok){
             // Referer header equal to the admin page
-            console.log(url.origin+"/admin")
+            
             if (request.headers.get('Referer') == url.origin+"/admin") {
                 //show the image
                 return response;
@@ -28,8 +28,8 @@ export async function onRequest(context) {  // Contents of context object
         if (typeof env.img_url == "undefined" || env.img_url == null || env.img_url == ""){}else{
             //check the record from kv
             const record = await env.img_url.getWithMetadata(params.id); 
-            console.log("record")
-            console.log(record)
+            
+            
             if (record.metadata === null) {
 
             }else{
@@ -38,8 +38,8 @@ export async function onRequest(context) {  // Contents of context object
                 if (record.metadata.ListType=="White"){
                     return response;
                 }else if (record.metadata.ListType=="Block"){
-                    console.log("Referer")
-                    console.log(request.headers.get('Referer'))
+                    
+                    
                     if(typeof request.headers.get('Referer') == "undefined" ||request.headers.get('Referer') == null || request.headers.get('Referer') == ""){
                         return Response.redirect(url.origin+"/block-img.html", 302)
                     }else{
@@ -54,7 +54,7 @@ export async function onRequest(context) {  // Contents of context object
                     }
                 }
                 //check if the env variables WhiteList_Mode are set
-                console.log("env.WhiteList_Mode:",env.WhiteList_Mode)
+                
                 if (env.WhiteList_Mode=="true"){
                     //if the env variables WhiteList_Mode are set, redirect to the image
                     return Response.redirect(url.origin+"/whitelist-on.html", 302);
@@ -74,7 +74,7 @@ export async function onRequest(context) {  // Contents of context object
             if(typeof apikey == "undefined" || apikey == null || apikey == ""){
                 
                 if (typeof env.img_url == "undefined" || env.img_url == null || env.img_url == ""){
-                    console.log("Not enbaled KV")
+                    
                     
                 }else{
                     //add image to kv
@@ -87,9 +87,9 @@ export async function onRequest(context) {  // Contents of context object
                 await fetch(`https://api.moderatecontent.com/moderate/?key=`+apikey+`&url=https://telegra.ph/` + url.pathname + url.search).
                 then(async (response) => {
                     let moderate_data = await response.json();
-                    console.log(moderate_data)
-                    console.log("---env.img_url---")
-                    console.log(env.img_url=="true")
+                    
+                    
+                    
                     if (typeof env.img_url == "undefined" || env.img_url == null || env.img_url == ""){}else{
                         //add image to kv
                         await env.img_url.put(params.id, "",{
